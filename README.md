@@ -112,10 +112,4 @@ streamlit run app.py
 - Worst purchase I have made this year  
 - Not worth the price at all  
 
-
 ---
-
-## 👨‍💻 Author
-
-**Vinayak Pattar**  
-Information Science and Engineering student 
