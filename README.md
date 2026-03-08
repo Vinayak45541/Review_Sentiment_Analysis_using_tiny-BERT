@@ -1,56 +1,49 @@
-# 🧠 TinyBERT Sentiment Analysis Web App
+# 🧠 Review Sentiment Analysis using TinyBERT
 
-A lightweight web application that performs **binary sentiment classification** (Positive / Negative) using a fine-tuned **TinyBERT** model.  
-Built with **Streamlit** and **HuggingFace Transformers**, the app provides real-time predictions with confidence scores and visual summaries.
+A lightweight NLP web application that classifies product and movie reviews as **Positive** or **Negative** using a fine-tuned **TinyBERT** model.
+
+Built with **Streamlit** · **HuggingFace Transformers** · **PyTorch** · Deployed on **Render**
 
 ---
 
 ## 🚀 Live Demo
 
-🔗 [https://reviewsentimentanalysisusingtiny-bert-85nhkqhr6fkgr6dopd7wgc.streamlit.app/](https://reviewsentimentanalysisusingtiny-bert-85nhkqhr6fkgr6dopd7wgc.streamlit.app/)
+🔗 **[https://review-sentiment-analysis-using-tiny.onrender.com](https://review-sentiment-analysis-using-tiny.onrender.com)**
+
 
 ---
 
-## 📌 Project Summary
+## 📌 Overview
 
 This project demonstrates:
-
-- Fine-tuning a compact Transformer model for sentiment analysis  
-- Optimizing model size for cloud deployment  
-- Building an interactive NLP web interface  
-- Deploying a production-ready app using Streamlit Cloud  
+- Fine-tuning a compact Transformer model (`prajjwal1/bert-tiny`) for binary sentiment classification
+- Hybrid inference combining model predictions with rule-based keyword overrides for edge cases
+- Building an interactive NLP web interface with real-time results and visualizations
+- Cloud deployment using Render
 
 ---
 
 ## 🧠 Model Details
 
-| Property | Details |
+| Property | Value |
 |---|---|
 | Base Model | `prajjwal1/bert-tiny` |
 | Architecture | 2-layer Transformer encoder |
-| Parameters | ~4M |
-| Task | Binary sentiment classification |
+| Parameters | ~4 Million |
+| Task | Binary Sentiment Classification (Positive / Negative) |
 | Training Data | IMDb movie reviews (subset) |
 | Framework | PyTorch + HuggingFace Transformers |
 | Model Size | ~17 MB |
-
-> TinyBERT was chosen to ensure fast inference and stable cloud deployment while maintaining reasonable accuracy.
 
 ---
 
 ## ⚙️ Features
 
-### 🔍 Sentiment Prediction
-- Supports single and multi-line reviews  
-- Displays confidence score per review  
-- Real-time inference with progress bar  
-
-### 🎨 Visualization
-- Side-by-side display of positive and negative reviews  
-- Pie chart showing overall sentiment distribution  
-
-### 🤖 Hybrid Inference Logic
-In addition to model predictions, rule-based checks handle clearly negative phrases (e.g., *worst*, *not worth*, *waste*, *terrible*) to improve short-text reliability.
+- **Multi-review input** — analyze one or many reviews at once (one per line)
+- **Confidence scores** — each review shows model confidence %
+- **Hybrid inference** — rule-based keyword check for clearly negative phrases (*worst, terrible, waste*, etc.)
+- **Visual summary** — side-by-side positive/negative cards + pie chart
+- **Example generator** — one-click sample reviews for quick testing
 
 ---
 
@@ -58,10 +51,11 @@ In addition to model predictions, rule-based checks handle clearly negative phra
 
 | Layer | Technology |
 |---|---|
-| Frontend | Streamlit |
-| ML Model | HuggingFace Transformers + PyTorch |
+| UI Framework | Streamlit |
+| ML Model | HuggingFace Transformers |
+| Deep Learning | PyTorch |
 | Visualization | Matplotlib |
-| Deployment | Streamlit Cloud |
+| Deployment | Render (Web Service) |
 
 ---
 
@@ -70,15 +64,15 @@ In addition to model predictions, rule-based checks handle clearly negative phra
 ```
 Review_Sentiment_Analysis_using_tiny-BERT/
 │
-├── app.py                    # Main Streamlit application
-├── requirements.txt          # Pinned Python dependencies
-├── packages.txt              # System-level apt packages (for Linux/Cloud)
+├── app.py                    # Streamlit application
+├── requirements.txt          # Python dependencies (pinned)
+├── render.yaml               # Render deployment config
 ├── .gitignore
 │
 ├── .streamlit/
-│   └── config.toml           # Theme and server configuration
+│   └── config.toml           # Streamlit theme & server settings
 │
-├── tiny_model/               # Fine-tuned TinyBERT model files
+├── tiny_model/               # Fine-tuned TinyBERT model
 │   ├── config.json
 │   ├── model.safetensors
 │   ├── tokenizer.json
@@ -91,54 +85,56 @@ Review_Sentiment_Analysis_using_tiny-BERT/
 
 ## 🛠️ Local Setup
 
-### 1️⃣ Clone Repository
 ```bash
+# 1. Clone the repo
 git clone https://github.com/Vinayak45541/Review_Sentiment_Analysis_using_tiny-BERT.git
 cd Review_Sentiment_Analysis_using_tiny-BERT
-```
 
-### 2️⃣ Create Virtual Environment (optional but recommended)
-```bash
+# 2. Create a virtual environment
 python -m venv venv
-venv\Scripts\activate      # Windows
-source venv/bin/activate   # macOS/Linux
-```
+venv\Scripts\activate        # Windows
+# source venv/bin/activate   # macOS/Linux
 
-### 3️⃣ Install Dependencies
-```bash
+# 3. Install dependencies
 pip install -r requirements.txt
-```
 
-### 4️⃣ Run Application
-```bash
+# 4. Run the app
 streamlit run app.py
 ```
 
 ---
 
-## ☁️ Deploying to Streamlit Cloud
+## ☁️ Deployment (Render)
 
-1. Push this repository to GitHub (ensure `tiny_model/` folder is committed)
-2. Go to [share.streamlit.io](https://share.streamlit.io)
-3. Click **New App** → select your repo → set **Main file path** to `app.py`
-4. Click **Deploy**
+| Field | Value |
+|---|---|
+| Runtime | Python 3 |
+| Build Command | `pip install -r requirements.txt` |
+| Start Command | `streamlit run app.py --server.port $PORT --server.address 0.0.0.0` |
+| Instance Type | Free |
 
-> No environment variable setup is needed — the model loads from the local `tiny_model/` directory.
+The `render.yaml` in this repo auto-configures the above settings.
 
 ---
 
 ## 🧪 Example Inputs
 
-**Positive**
-- This movie was amazing and emotional  
-- Excellent product quality and value for money  
+**Positive Reviews**
+```
+The product quality is amazing and exceeded expectations
+Fantastic experience, would definitely buy again
+An emotional masterpiece and beautifully shot scenes
+```
 
-**Negative**
-- Worst purchase I have made this year  
-- Not worth the price at all  
+**Negative Reviews**
+```
+Worst purchase I have made this year
+Battery drains too fast and overheats frequently
+A complete waste of time and money
+```
 
 ---
 
 ## 📄 License
 
-This project is open-source and available under the [MIT License](LICENSE).
+This project is open-source under the [MIT License](LICENSE).
